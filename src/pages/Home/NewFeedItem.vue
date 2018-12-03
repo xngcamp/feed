@@ -10,7 +10,9 @@
         placeholder="有什么新鲜事？"
         title="new-item-text">
       </textarea>
-      <button class="btn btn-primary btn-sm">发送</button>
+      <div class="form-footer">
+        <button class="btn btn-primary btn-sm" :disabled="!Boolean(newItemText.trim())">发送</button>
+      </div>
     </form>
   </div>
 </template>
@@ -77,5 +79,9 @@ export default {
 }
 .input-new-item-text::placeholder {
   line-height: 1.2;
+}
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

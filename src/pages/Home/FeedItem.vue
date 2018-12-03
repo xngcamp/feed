@@ -10,32 +10,55 @@
           <span class="user-info-item">@lihs</span>
           <span class="user-info-item">· 一个小时前</span>
         </div>
-        <div class="text">
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-          快来围观，这是我的第一条微博！
-        </div>
+        <div class="text">{{text}}</div>
       </div>
     </div>
     <div class="footer">
-      <button type="button" class="btn btn-link">编辑</button>
-      <button type="button" class="btn btn-link text-danger">删除</button>
+      <button @click="editItem" type="button" class="btn btn-link">编辑</button>
+      <button @click="confirmDel" type="button" class="btn btn-link text-danger">删除</button>
     </div>
   </div>
 </template>
 
 <script>
+import FeedItemEditor from '@/components/FeedItemEditor/index';
+import ConfirmModal from '@/components/ConfirmModal/index';
+
 export default {
   name: 'FeedItem',
+  props: {
+    id: {
+      default: '5be579a301fb8f5f393c914f',
+    },
+    text: {
+      default: '快来围观，这是我的第一条微博！',
+    },
+  },
+  methods: {
+    editItem() {
+      this.$modal.show(FeedItemEditor,
+        {
+          text: this.text,
+        },
+        {
+          height: 'auto',
+        },
+      );
+    },
+    confirmDel() {
+      this.$modal.show(ConfirmModal,
+        {
+          onDelete: () => {
+            window.console.log('delete: ', this.id);
+          },
+        },
+        {
+          width: 400,
+          height: 'auto',
+        },
+      );
+    },
+  },
 };
 </script>
 

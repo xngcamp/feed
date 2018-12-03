@@ -16,7 +16,7 @@
             <input v-model="searchText" class="form-control mr-sm-2" type="text" placeholder="搜索">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">搜索</button>
           </form>
-          <button type="button" class="btn btn-primary">分享新鲜事</button>
+          <button @click="showModal" type="button" class="btn btn-primary">分享新鲜事</button>
         </div>
       </nav>
     </header>
@@ -27,17 +27,30 @@
 </template>
 
 <script>
+import FeedItemEditor from '@/components/FeedItemEditor/index';
+
 export default {
   name: 'App',
   data() {
     return {
       activeTab: 'home',
       searchText: '',
+      newItemText: '',
     };
   },
   methods: {
     handleSearch() {
       window.console.log(this.searchText);
+    },
+    showModal() {
+      this.$modal.show(FeedItemEditor,
+        {
+          text: '',
+        },
+        {
+          height: 'auto',
+        },
+      );
     },
   },
 };
