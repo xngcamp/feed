@@ -21,17 +21,30 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'feedItemEditor',
-  props: ['text'],
+  props: ['id', 'text'],
   data() {
     return {
       newItemText: this.text,
     };
   },
   methods: {
+    ...mapActions('home', [
+      'addFeedItem', 'updateFeedItem',
+    ]),
     submitNewItem() {
-      window.console.log(this.newItemText);
+      if (this.id) {
+        this.updateFeedItem({
+          id: this.id,
+          text: this.newItemText,
+        });
+      } else {
+        this.addFeedItem(this.newItemText);
+      }
+      this.$emit('close');
     },
   },
 };

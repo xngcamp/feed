@@ -6,6 +6,7 @@ import 'normalize.css';
 import 'bootswatch/dist/cosmo/bootstrap.min.css';
 import App from './App';
 import router from './router';
+import store from './store';
 
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true });
 
@@ -15,6 +16,7 @@ Vue.config.productionTip = false;
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>',
 });

@@ -10,7 +10,7 @@
           <span class="user-info-item">@lihs</span>
           <span class="user-info-item">· 一个小时前</span>
         </div>
-        <div class="text">{{text}}</div>
+        <div class="text">{{item.text}}</div>
       </div>
     </div>
     <div class="footer">
@@ -21,24 +21,29 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import FeedItemEditor from '@/components/FeedItemEditor/index';
 import ConfirmModal from '@/components/ConfirmModal/index';
 
 export default {
   name: 'FeedItem',
   props: {
-    id: {
-      default: '5be579a301fb8f5f393c914f',
-    },
-    text: {
-      default: '快来围观，这是我的第一条微博！',
+    item: {
+      default: {
+        id: '5be579a301fb8f5f393c914f',
+        text: '快来围观，这是我的第一条微博！',
+      },
     },
   },
   methods: {
+    ...mapActions('home', [
+      'delFeedItem',
+    ]),
     editItem() {
       this.$modal.show(FeedItemEditor,
         {
-          text: this.text,
+          id: this.item.id,
+          text: this.item.text,
         },
         {
           height: 'auto',
@@ -49,7 +54,7 @@ export default {
       this.$modal.show(ConfirmModal,
         {
           onDelete: () => {
-            window.console.log('delete: ', this.id);
+            this.delFeedItem(this.item.id);
           },
         },
         {

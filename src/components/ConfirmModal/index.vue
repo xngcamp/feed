@@ -5,7 +5,7 @@
     </div>
     <div class="footer-btns">
       <button @click="$emit('close')" class="btn btn-link">取消</button>
-      <button @click="onDelete" class="btn btn-danger">删除</button>
+      <button @click="confirm" class="btn btn-danger">删除</button>
     </div>
   </div>
 </template>
@@ -22,6 +22,10 @@ export default {
   methods: {
     submitNewItem() {
       window.console.log(this.newItemText);
+    },
+    confirm() {
+      this.onDelete();
+      this.$emit('close');
     },
   },
 };

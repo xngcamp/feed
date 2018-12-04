@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'NewFeedItem',
   data() {
@@ -27,6 +29,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions('home', [
+      'addFeedItem',
+    ]),
     showInput() {
       this.isInputShow = true;
       this.$nextTick(() => {
@@ -40,7 +45,9 @@ export default {
       }
     },
     submitNewItem() {
-      window.console.log(this.newItemText);
+      this.addFeedItem(this.newItemText);
+      this.newItemText = '';
+      this.isInputShow = false;
     },
   },
 };

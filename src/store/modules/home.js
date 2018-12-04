@@ -1,38 +1,85 @@
-// import shop from '../../api/shop'
+import * as homeAPI from '@/service/api/home';
 
 /**
  * initial state
  * shape:
- * isShowFeedItemEditor: Boolean
- * feedList: [{ id: string, userName: string, text: string }]
+ * feedList: [{ id: string, title: string, text: string }]
 */
-const state = {
-  isShowFeedItemEditor: false,
+const defaultState = {
+  feedList: [],
 };
 
 // getters
 const getters = {
-  isShowFeedItemEditor(state) {
-    return state.isShowFeedItemEditor;
-  },
-  feedList(state) {
-    return state.feedList;
-  },
+  feedList: state => state.feedList,
 };
 
 // actions
 const actions = {
-
+  getFeedList: ({ commit }) => (
+    homeAPI.getList()
+      .then((res) => {
+        const feedList = res.data.data.map(item => ({
+          id: item.id,
+          text: item.txt,
+        }));
+        commit('setFeedList', feedList || []);
+      })
+  ),
+  addFeedItem: ({ commit }, text) => (
+    homeAPI.addFeedItem(text)
+      .then((res) => {
+        const feedItem = {
+          id: res.data.data.id,
+          text: res.data.data.txt,
+        };
+        commit('addFeedItem', feedItem);
+      })
+  ),
+  delFeedItem: ({ state, commit }, id) => {
+    homeAPI.deleteOne(id)
+      .then(
+        () => {
+          commit('setFeedList', state.feedList.filter(item => item.id !== id));
+        },
+      );
+  },
+  updateFeedItem: ({ state, commit }, {
+    id, text,
+  }) => {
+    homeAPI.updateOne({
+      id,
+      text,
+    })
+      .then(
+        () => {
+          const newFeedList = state.feedList.map(item => (
+            item.id === id
+              ? {
+                ...item,
+                text,
+              }
+              : item
+          ));
+          commit('setFeedList', newFeedList);
+        },
+      );
+  },
 };
 
 // mutations
 const mutations = {
-
+  addFeedItem: (state, feedItem) => {
+    state.feedList.unshift(feedItem);
+  },
+  setFeedList: (state, feedList) => {
+    state.feedList = feedList;
+  },
 };
 
 export default {
   namespaced: true,
-  state,
+  state: defaultState,
   getters,
   actions,
   mutations,
