@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import WhoAreYou from '@/components/WhoAreYouModal/index';
 import Profile from './Profile';
 import FeedList from './FeedList';
 import NewFeedItem from './NewFeedItem';
@@ -23,6 +24,16 @@ import NewFeedItem from './NewFeedItem';
 export default {
   components: { NewFeedItem, Profile, FeedList },
   name: 'Home',
+  created() {
+    const userInfo = JSON.parse(
+      window.sessionStorage.getItem('userInfo'),
+    );
+    if (!userInfo || !Object.keys(userInfo).length) {
+      this.$modal.show(WhoAreYou, {}, {
+        height: 'auto',
+      });
+    }
+  },
   data() {
     return {
       searchText: '',

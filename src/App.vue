@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import FeedItemEditor from '@/components/FeedItemEditor/index';
+import FeedItemEditor from '@/components/FeedItemEditorModal/index';
 
 export default {
   name: 'App',

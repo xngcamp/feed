@@ -6,8 +6,8 @@
       </div>
       <div class="content">
         <div class="user-info">
-          <b class="user-info-item user-name">西木心亘大㸚</b>
-          <span class="user-info-item">@lihs</span>
+          <b class="user-info-item user-name">{{selfInfo.nick}}</b>
+          <span class="user-info-item">@{{selfInfo.name}}</span>
           <span class="user-info-item">· 一个小时前</span>
         </div>
         <div class="text">{{item.text}}</div>
@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import FeedItemEditor from '@/components/FeedItemEditor/index';
+import { mapGetters, mapActions } from 'vuex';
+import FeedItemEditor from '@/components/FeedItemEditorModal/index';
 import ConfirmModal from '@/components/ConfirmModal/index';
 
 export default {
@@ -34,6 +34,11 @@ export default {
         text: '快来围观，这是我的第一条微博！',
       },
     },
+  },
+  computed: {
+    ...mapGetters({
+      selfInfo: 'userInfo',
+    }),
   },
   methods: {
     ...mapActions('home', [
@@ -98,7 +103,7 @@ export default {
     color: #5D9FEE;
     text-decoration: underline;
   }
-  .component-container > .main > .text {
+  .component-container > .main > .content > .text {
     margin-top: 4px;
     line-height: 1.2;
   }
